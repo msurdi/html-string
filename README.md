@@ -1,6 +1,6 @@
 # html-string
 
-A templating library based on JavaScript tagged template litereals. Works on the browser and on the server.
+A templating library based on JavaScript tagged template literals. Works on the browser and on the server.
 
 Quick Example:
 
