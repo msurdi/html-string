@@ -1,0 +1,39 @@
+{
+  "name": "html-string",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/html.js",
+  "scripts": {
+    "build": "babel src -d dist",
+    "prepublish": "npm run build",
+    "test:watch": "jest --watch src",
+    "test": "jest src"
+  },
+  "author": {
+    "name": "Matías Surdi",
+    "email": "matias@surdi.net",
+    "url": "https://github.com/msurdi"
+  },
+  "bugs": {
+    "url": "https://github.com/msurdi/html-string/issues"
+  },
+  "homepage": "https://github.com/msurdi/html-string",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2",
+    "jest": "^24.9.0"
+  },
+  "dependencies": {
+    "xss": "^1.0.6"
+  }
+}

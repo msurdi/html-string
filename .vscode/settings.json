@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        "node_modules": true,
+        "dist": true
+    },
+    "eslint.autoFixOnSave": true,
+    "lit-html.format.enabled": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+}
