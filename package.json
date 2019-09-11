@@ -18,7 +18,7 @@
     "url": "https://github.com/msurdi/html-string/issues"
   },
   "homepage": "https://github.com/msurdi/html-string",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "@babel/cli": "^7.6.0",
