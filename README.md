@@ -13,8 +13,8 @@ const TodoItem = ({ title, completed }) => html`
   <li>${title} ${completed ? "✅" : "❌"}</li>
 `;
 
-const TodoList = ({ todos, completedCount }) => html`
-  <ul>
+const TodoList = ({ todos, completedCount, extraAttrs={} }) => html`
+  <ul ${extraAttrs}:attrs>
     ${todos.map(todo => TodoItem(todo))}:html
   </ul>
   ${completedCount && html`<p>${completedCount} tasks completed</p>`}:html
@@ -27,12 +27,12 @@ const todos = [
 
 const completedCount = todos.filter(todo => todo.completed).length;
 
-const htmlOutputForTheBrowser = TodoList({ todos, completedCount });
+const htmlOutputForTheBrowser = TodoList({ todos, completedCount, extraAttrs={id: "tasks", dataCustom: "value"}});
 console.log(htmlOutputForTheBrowser);
 
 /*
 Output would be:
-  <ul>
+  <ul id="tasks" data-custom="value">
 
   <li>Read this ✅</li>
 

@@ -1,5 +1,10 @@
 import xss from "xss";
 
+
+const toKebabCase = (string) => {
+  return string.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+};
+
 /**
  * A custom template string tag which additionally to do the standard value interpolation
  * it escapes any value which could create XSS vulnerabilities.
@@ -37,17 +42,21 @@ const html = (strings, ...values) =>
       currentValue = currentValue.join(" ");
     }
 
-    // Ensure the current value is a String
-    currentValue = currentValue.toString();
 
-    // Decide if XSS protection is necessary, by looking if the next line starts by :html
     if (nextString !== undefined) {
-      if (!nextString.startsWith(":html")) {
-        currentValue = xss(currentValue);
+      // Decide if value should be interpreted as html key=value pairs
+      if (nextString.startsWith(':attrs') && typeof currentValue === 'object') {
+        currentValue = Object.keys(currentValue).map(key => `${toKebabCase(key)}="${currentValue[key]}"`).join(" ");
+      }
+
+      // Decide if XSS protection is necessary, by looking if the next line starts by :html
+      else if (!nextString.startsWith(":html")) {
+        currentValue = xss(currentValue.toString());
       }
     }
+
     // Clean any existing ":html" string from current string
-    const cleanCurrentString = currentString.replace(/:html/g, "");
+    const cleanCurrentString = currentString.replace(/:(html|attrs)/g, "");
 
     // Return resulting string up to this point
     return `${output}${cleanCurrentString}${currentValue}`;

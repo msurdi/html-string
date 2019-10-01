@@ -103,4 +103,20 @@ describe("Html templates", () => {
       "<p>A simple template with a value of <script>alert('boom!')</script></p>"
     );
   });
+
+  it("Transforms any object value with a :attrs suffix to html attributes", () => {
+    const template = value =>
+      html `
+      <p ${value}:attrs></p>
+    `;
+
+    expect(template({
+      id: 1,
+      name: "value",
+      dataCustom: "customData"
+    }).trim()).toEqual(
+      '<p id="1" name="value" data-custom="customData"></p>'
+    );
+
+  })
 });
