@@ -13,19 +13,34 @@ const TodoItem = ({ title, completed }) => html`
   <li>${title} ${completed ? "✅" : "❌"}</li>
 `;
 
-const TodoList = ({ todos }) => html`
+const TodoList = ({ todos, completedCount }) => html`
   <ul>
     ${todos.map(todo => TodoItem(todo))}:html
   </ul>
+  ${completedCount && html`<p>${completedCount} tasks completed</p>`}:html
 `;
 
 const todos = [
   { title: "Read this", completed: true },
   { title: "Use this", completed: false }
 ];
-const htmlOutputForTheBrowser = TodoList({ todos });
+
+const completedCount = todos.filter(todo => todo.completed).length;
+
+const htmlOutputForTheBrowser = TodoList({ todos, completedCount });
 console.log(htmlOutputForTheBrowser);
 
+/*
+Output would be:
+  <ul>
+
+  <li>Read this ✅</li>
+
+  <li>Use this ❌</li>
+
+  </ul>
+  <p>1 tasks completed</p>
+*/
 ```
 
 **Note**
