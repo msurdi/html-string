@@ -30,7 +30,7 @@ const html = (strings, ...values) =>
     // Next string to use after the current one and the current value are used, just for looking ahead.
     const nextString = strings[i + 1];
     // Current value to interpolate in the resulting string
-    let currentValue = values[i] !== undefined ? values[i] : "";
+    let currentValue = (values[i] !== null && values[i] !== undefined && values[i] !== false) ? values[i] : "";
 
     // If current value is an array, then transform it to a string by joining its values with an empty space.
     if (Array.isArray(currentValue)) {

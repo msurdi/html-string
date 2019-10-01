@@ -3,7 +3,7 @@ const html = require("./html");
 describe("Html templates", () => {
   it("Renders a basic template", () => {
     const template = () =>
-      html`
+      html `
         <p>A simple template</p>
       `;
 
@@ -12,7 +12,7 @@ describe("Html templates", () => {
 
   it("Interpolates simple values", () => {
     const template = value =>
-      html`
+      html `
         <p>A simple template with a value of ${value}</p>
       `;
 
@@ -21,9 +21,33 @@ describe("Html templates", () => {
     );
   });
 
+  it("Renders a falsy value as an empty string except if it is a number", () => {
+    const template = value =>
+      html `
+        <p>A simple template with a value of ${value}</p>
+      `;
+
+    expect(template(false).trim()).toEqual(
+      "<p>A simple template with a value of </p>"
+    );
+
+    expect(template("").trim()).toEqual(
+      "<p>A simple template with a value of </p>"
+    );
+
+    expect(template(null).trim()).toEqual(
+      "<p>A simple template with a value of </p>"
+    );
+
+    expect(template(0).trim()).toEqual(
+      "<p>A simple template with a value of 0</p>"
+    );
+
+  });
+
   it("Interpolates an array as a string", () => {
     const template = value =>
-      html`
+      html `
         <p>A simple template with a value of ${value}</p>
       `;
 
@@ -34,7 +58,7 @@ describe("Html templates", () => {
 
   it("Interpolates an undefined value as an empty string", () => {
     const template = value =>
-      html`
+      html `
         <p>A simple template with a value of ${value}.</p>
       `;
 
@@ -45,7 +69,7 @@ describe("Html templates", () => {
 
   it("Interpolates an object value as its toString() value", () => {
     const template = value =>
-      html`
+      html `
         <p>A simple template with a value of ${value}.</p>
       `;
     const testValue = {
@@ -60,7 +84,7 @@ describe("Html templates", () => {
 
   it("Escapes dangerous values (xss)", () => {
     const template = value =>
-      html`
+      html `
         <p>A simple template with a value of ${value}</p>
       `;
 
@@ -71,7 +95,7 @@ describe("Html templates", () => {
 
   it("Does not escape dangerous values with the :html modifier", () => {
     const template = value =>
-      html`
+      html `
         <p>A simple template with a value of ${value}:html</p>
       `;
 
