@@ -117,6 +117,34 @@ describe("Html templates", () => {
     }).trim()).toEqual(
       '<p id="1" name="value" data-custom="customData"></p>'
     );
-
   })
+
+  it(":attrs modifier preserves boolean attribute without a value", () => {
+    const template = value =>
+      html `
+      <p ${value}:attrs></p>
+    `;
+
+    expect(template({
+      id: 1,
+      disabled: true
+    }).trim()).toEqual(
+      '<p id="1" disabled></p>'
+    );
+  })
+
+  it(":attrs modifier removes boolean attribute", () => {
+    const template = value =>
+      html `
+      <p ${value}:attrs></p>
+    `;
+
+    expect(template({
+      id: 1,
+      disabled: false
+    }).trim()).toEqual(
+      '<p id="1"></p>'
+    );
+  })
+
 });

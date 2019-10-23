@@ -46,7 +46,15 @@ const html = (strings, ...values) =>
     if (nextString !== undefined) {
       // Decide if value should be interpreted as html key=value pairs
       if (nextString.startsWith(':attrs') && typeof currentValue === 'object') {
-        currentValue = Object.keys(currentValue).map(key => `${toKebabCase(key)}="${currentValue[key]}"`).join(" ");
+        currentValue = Object.keys(currentValue).map(key => {
+          if (typeof currentValue[key] === 'boolean') {
+            if (currentValue[key] === false) {
+              return ""
+            }
+            return `${toKebabCase(key)}`
+          }
+          return `${toKebabCase(key)}="${currentValue[key]}"`
+        }).filter(Boolean).join(" ");
       }
 
       // Decide if XSS protection is necessary, by looking if the next line starts by :html

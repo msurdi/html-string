@@ -27,12 +27,12 @@ const todos = [
 
 const completedCount = todos.filter(todo => todo.completed).length;
 
-const htmlOutputForTheBrowser = TodoList({ todos, completedCount, extraAttrs={id: "tasks", dataCustom: "value"}});
+const htmlOutputForTheBrowser = TodoList({ todos, completedCount, extraAttrs={id: "tasks", dataCustom: "value", dataSomeBool: true}});
 console.log(htmlOutputForTheBrowser);
 
 /*
 Output would be:
-  <ul id="tasks" data-custom="value">
+  <ul id="tasks" data-custom="value" data-some-bool>
 
   <li>Read this ✅</li>
 
