@@ -27,7 +27,8 @@ const todos = [
 
 const completedCount = todos.filter(todo => todo.completed).length;
 
-const htmlOutputForTheBrowser = TodoList({ todos, completedCount, extraAttrs: {id: "tasks", dataCustom: "value", dataSomeBool: true}});
+const todoList = TodoList({ todos, completedCount, extraAttrs: {id: "tasks", dataCustom: "value", dataSomeBool: true}});
+const htmlOutputForTheBrowser = todoList.render()
 console.log(htmlOutputForTheBrowser);
 
 /*
