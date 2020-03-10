@@ -18,6 +18,9 @@ class HtmlString {
   }
 }
 
+const escape = value =>
+  value instanceof HtmlString ? value : xss(value.toString());
+
 /**
  * A custom template string tag which additionally to do the standard value interpolation
  * it escapes any value which could create XSS vulnerabilities.
@@ -54,12 +57,6 @@ const html = (strings, ...values) => {
         ? values[i]
         : "";
 
-    const isHtmlString = currentValue instanceof HtmlString;
-
-    if (isHtmlString) {
-      currentValue = currentValue.render();
-    }
-
     // Decide if value should be interpreted as html key=value pairs
     if (
       nextString &&
@@ -83,12 +80,15 @@ const html = (strings, ...values) => {
     // Decide if XSS protection is necessary, by looking if the next line starts by :safe
     if (!nextString || !nextString.startsWith(":safe")) {
       if (Array.isArray(currentValue)) {
-        currentValue.map(v =>
-          v instanceof HtmlString ? v : xss(v.toString())
-        );
+        currentValue.map(escape);
       } else {
-        currentValue = xss(currentValue.toString());
+        currentValue = escape(currentValue);
       }
+    }
+
+    const isHtmlString = currentValue instanceof HtmlString;
+    if (isHtmlString) {
+      currentValue = currentValue.render();
     }
 
     // If current value is an array, then transform it to a string by joining its values with an empty space.

@@ -116,6 +116,18 @@ describe("Html templates", () => {
     );
   });
 
+  it("Does not escape nested templates", () => {
+    const template = () =>
+      // prettier-ignore
+      html`<h1>A ${html`<script>nested</script>`} value</h1>`;
+
+    expect(
+      template()
+        .render()
+        .trim()
+    ).toEqual(`<h1>A <script>nested</script> value</h1>`);
+  });
+
   it("Does not escape templates passed as values", () => {
     const templateValue = () =>
       // prettier-ignore
