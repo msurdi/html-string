@@ -71,6 +71,20 @@ describe("Html templates", () => {
     ).toEqual("<p>A simple template with a value of funky funny</p>");
   });
 
+  it("Handles an undefined value in a list", () => {
+    const template = values =>
+      // prettier-ignore
+      html`
+      <ul>${values.map(v => html`<li>${v}</li>`)}</ul>
+    `;
+
+    expect(
+      template(["ok", undefined])
+        .render()
+        .trim()
+    ).toEqual("<ul><li>ok</li> <li></li></ul>");
+  });
+
   it("Interpolates an undefined value as an empty string", () => {
     const template = value =>
       html`

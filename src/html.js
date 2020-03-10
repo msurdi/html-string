@@ -18,8 +18,12 @@ class HtmlString {
   }
 }
 
-const escape = value =>
-  value instanceof HtmlString ? value : xss(value.toString());
+const escape = value => {
+  if (typeof value === "undefined" || value === null) {
+    return value;
+  }
+  return value instanceof HtmlString ? value : xss(value.toString());
+};
 
 /**
  * A custom template string tag which additionally to do the standard value interpolation
@@ -80,7 +84,7 @@ const html = (strings, ...values) => {
     // Decide if XSS protection is necessary, by looking if the next line starts by :safe
     if (!nextString || !nextString.startsWith(":safe")) {
       if (Array.isArray(currentValue)) {
-        currentValue.map(escape);
+        currentValue = currentValue.map(escape);
       } else {
         currentValue = escape(currentValue);
       }
