@@ -2,12 +2,10 @@
   "name": "html-string",
   "version": "2.0.3",
   "description": "",
-  "main": "dist/html.js",
+  "main": "lib/html.js",
   "scripts": {
-    "build": "babel src -d dist",
-    "prepublish": "npm run build",
-    "test:watch": "jest --watch src",
-    "test": "jest src"
+    "test:watch": "jest --watch lib",
+    "test": "jest lib"
   },
   "author": {
     "name": "Matías Surdi",
@@ -35,5 +33,8 @@
   },
   "dependencies": {
     "xss": "^1.0.6"
-  }
+  },
+  "files": [
+    "lib/html.js"
+  ]
 }
