@@ -9,27 +9,24 @@ const TodoItem = ({ title, completed }) => html`
 
 const TodoList = ({ todos, completedCount, extraAttrs = {} }) => html`
   <ul ${extraAttrs}:attrs>
-    ${todos.map(todo => TodoItem(todo))}
+    ${todos.map((todo) => TodoItem(todo))}
   </ul>
-  ${completedCount &&
-    html`
-      <p>${completedCount} tasks completed</p>
-    `}
+  ${completedCount && html` <p>${completedCount} tasks completed</p> `}
 `;
 
 const todos = [
   { title: "Read this", completed: true },
   { title: "Use this", completed: false },
   // Title will be shown in bold (thus, unescaped) because the TodoItem template has the :safe modifier for the ${title} value.
-  { title: "<b>important task</b>", completed: false }
+  { title: "<b>important task</b>", completed: false },
 ];
 
-const completedCount = todos.filter(todo => todo.completed).length;
+const completedCount = todos.filter((todo) => todo.completed).length;
 
 const template = TodoList({
   todos,
   completedCount,
-  extraAttrs: { id: "tasks", dataCustom: "value", dataSomeBool: true }
+  extraAttrs: { id: "tasks", dataCustom: "value", dataSomeBool: true },
 });
 
 app.get("/", (req, res) => res.send(template.render()));
