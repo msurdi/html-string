@@ -21,8 +21,8 @@ const TodoList = ({ todos, completedCount, extraAttrs={} }) => html`
 `;
 
 const todos = [
-  { title: "Read this", completed: true },
-  { title: "Use this", completed: false }
+  { title: "Task one", completed: true },
+  { title: "Task two", completed: false }
 ];
 
 const completedCount = todos.filter(todo => todo.completed).length;
@@ -34,11 +34,8 @@ console.log(htmlOutputForTheBrowser);
 /*
 Output would be:
   <ul id="tasks" data-custom="value" data-some-bool>
-
-  <li>Read this ✅</li>
-
-  <li>Use this ❌</li>
-
+    <li>Task one ✅</li>
+    <li>Task two ❌</li>
   </ul>
   <p>1 tasks completed</p>
 */
