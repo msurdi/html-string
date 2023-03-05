@@ -59,6 +59,18 @@ const TodoItem = ({ title, completed }) => html`
 
 The `:safe` modifier in the previous template would skip the XSS protection.
 
+
+## Available modifiers
+
+`safe`
+
+  Mark the preceding interpolated value as safe for raw output (no XSS escaping).
+
+`attrs`
+
+  Convert each property of the preceding interpolated value to html attributes. Camelcase names
+are converted to kebab-case. For example `{dateCustom: "value"}` will be rendered as `data-custom="value"`.
+
 ## Editor support
 
 If you are using [Visual Studio Code](https://code.visualstudio.com/), you can use the [lit-html](https://marketplace.visualstudio.com/items?itemName=bierner.lit-html) extension for syntax highlighting, autocompletion, etc.
