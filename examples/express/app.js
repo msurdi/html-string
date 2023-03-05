@@ -15,8 +15,8 @@ const TodoList = ({ todos, completedCount, extraAttrs = {} }) => html`
 `;
 
 const todos = [
-  { title: "Read this", completed: true },
-  { title: "Use this", completed: false },
+  { title: "Task one", completed: true },
+  { title: "Task two", completed: false },
   // Title will be shown in bold (thus, unescaped) because the TodoItem template has the :safe modifier for the ${title} value.
   { title: "<b>important task</b>", completed: false },
 ];
