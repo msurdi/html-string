@@ -59,7 +59,6 @@ const TodoItem = ({ title, completed }) => html`
 
 The `:safe` modifier in the previous template would skip the XSS protection.
 
-
 ## Available modifiers
 
 `safe`
