@@ -21,7 +21,7 @@
     "coverage": "vitest run --coverage"
   },
   "author": {
-    "name": "Matías Surdi",
+    "name": "Matías Emanuel Surdi",
     "email": "matias@surdi.net",
     "url": "https://github.com/msurdi"
   },
