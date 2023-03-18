@@ -4,14 +4,14 @@ import html from "./html";
 
 describe("Html templates", () => {
   it("Renders a basic template", () => {
-    const template = () => html` <p>A simple template</p> `;
+    const template = () => html`<p>A simple template</p> `;
 
     expect(html.render(template())).toEqual("<p>A simple template</p>");
   });
 
   it("Interpolates simple values", () => {
-    const template = (value) =>
-      html` <p>A simple template with a value of ${value}</p> `;
+    const template = (value: string | number) =>
+      html`<p>A simple template with a value of ${value}</p> `;
 
     expect(html.render(template("funky"))).toEqual(
       "<p>A simple template with a value of funky</p>"
@@ -23,8 +23,8 @@ describe("Html templates", () => {
   });
 
   it("Renders a falsy value as an empty string except if it is a number", () => {
-    const template = (value) =>
-      html` <p>A simple template with a value of ${value}</p> `;
+    const template = (value: string | number | null | boolean) =>
+      html`<p>A simple template with a value of ${value}</p> `;
 
     expect(html.render(template(false))).toEqual(
       "<p>A simple template with a value of </p>"
@@ -41,8 +41,8 @@ describe("Html templates", () => {
   });
 
   it("Interpolates an array as a string", () => {
-    const template = (value) =>
-      html` <p>A simple template with a value of ${value}</p> `;
+    const template = (value: string[]) =>
+      html`<p>A simple template with a value of ${value}</p> `;
 
     expect(html.render(template(["funky", "funny"]))).toEqual(
       "<p>A simple template with a value of funky funny</p>"
@@ -50,7 +50,7 @@ describe("Html templates", () => {
   });
 
   it("Handles an undefined value in a list", () => {
-    const template = (values) =>
+    const template = (values: (string | undefined)[]) =>
       // prettier-ignore
       html`
       <ul>${values.map(v => html`<li>${v}</li>`)}</ul>
@@ -62,8 +62,8 @@ describe("Html templates", () => {
   });
 
   it("Interpolates an undefined value as an empty string", () => {
-    const template = (value) =>
-      html` <p>A simple template with a value of ${value}.</p> `;
+    const template = (value?: string) =>
+      html`<p>A simple template with a value of ${value}.</p> `;
 
     expect(html.render(template(undefined))).toEqual(
       "<p>A simple template with a value of .</p>"
@@ -71,8 +71,8 @@ describe("Html templates", () => {
   });
 
   it("Interpolates an object value as its toString() value", () => {
-    const template = (value) =>
-      html` <p>A simple template with a value of ${value}.</p> `;
+    const template = (value: object) =>
+      html`<p>A simple template with a value of ${value}.</p> `;
     const testValue = {
       toString() {
         return "Serialized";
@@ -85,8 +85,8 @@ describe("Html templates", () => {
   });
 
   it("Escapes dangerous values (xss)", () => {
-    const template = (value) =>
-      html` <p>A simple template with a value of ${value}</p> `;
+    const template = (value: string) =>
+      html`<p>A simple template with a value of ${value}</p> `;
 
     expect(html.render(template("<script>alert('boom!')</script>"))).toEqual(
       "<p>A simple template with a value of &lt;script&gt;alert('boom!')&lt;/script&gt;</p>"
@@ -108,7 +108,7 @@ describe("Html templates", () => {
       // prettier-ignore
       html`<h1>A value with tags</h1>`;
     // prettier-ignore
-    const template = value =>html`<div>${value}</div>`;
+    const template = (value: unknown) =>html`<div>${value}</div>`;
 
     expect(html.render(template(templateValue()))).toEqual(
       `<div><h1>A value with tags</h1></div>`
@@ -117,10 +117,10 @@ describe("Html templates", () => {
 
   it("Does not escape arrays of templates passed as values", () => {
     // prettier-ignore
-    const templateValue = v =>
+    const templateValue = (v: unknown) =>
       html`<li>A value ${v} with tags</li>`;
     // prettier-ignore
-    const template = values =>html`<ul>${values.map(v => templateValue(v))}</ul>`;
+    const template = (values: unknown[]) => html`<ul>${values.map(v => templateValue(v))}</ul>`;
 
     expect(html.render(template(["a", "b", "c"]))).toEqual(
       "<ul><li>A value a with tags</li> <li>A value b with tags</li> <li>A value c with tags</li></ul>"
@@ -128,8 +128,8 @@ describe("Html templates", () => {
   });
 
   it("Does not escape unsafe attributes marked as such", () => {
-    const template = (value) =>
-      html` <p>A simple template with a value of ${html.unsafe(value)}</p> `;
+    const template = (value: unknown) =>
+      html`<p>A simple template with a value of ${html.unsafe(value)}</p> `;
 
     expect(html.render(template("<script>alert('boom!')</script>"))).toEqual(
       "<p>A simple template with a value of <script>alert('boom!')</script></p>"
@@ -137,7 +137,7 @@ describe("Html templates", () => {
   });
 
   it("Transforms any object value to html attributes", () => {
-    const template = (value) => html` <p ${html.attrs(value)}></p> `;
+    const template = (value: object) => html`<p ${html.attrs(value)}></p> `;
 
     expect(
       html.render(
@@ -153,8 +153,25 @@ describe("Html templates", () => {
     );
   });
 
+  it("Transform rest attributes to html attributes", () => {
+    const template = ({ id, ...attrs }: any) =>
+      html`<p id="${id}" ${html.attrs(attrs)} data-custom="customData"></p> `;
+
+    expect(
+      html.render(
+        template({
+          id: 1,
+          name: "value",
+          dataMultipleWords: "multipleWords",
+        })
+      )
+    ).toEqual(
+      '<p id="1" name="value" data-multiple-words="multipleWords" data-custom="customData"></p>'
+    );
+  });
+
   it("Preserves booleans (true) in object to attributes transformation", () => {
-    const template = (value) => html` <p ${html.attrs(value)}></p> `;
+    const template = (value: object) => html`<p ${html.attrs(value)}></p> `;
 
     expect(
       html.render(
@@ -167,7 +184,7 @@ describe("Html templates", () => {
   });
 
   it("Removes booleans (false) in object to attributes transformation", () => {
-    const template = (value) => html` <p ${html.attrs(value)}></p> `;
+    const template = (value: object) => html`<p ${html.attrs(value)}></p> `;
 
     expect(
       html.render(
@@ -180,7 +197,7 @@ describe("Html templates", () => {
   });
 
   it("Removes undefined values in object to attributes transformation", () => {
-    const template = (value) => html` <p ${html.attrs(value)}></p> `;
+    const template = (value: object) => html`<p ${html.attrs(value)}></p> `;
 
     expect(
       html.render(
@@ -193,7 +210,7 @@ describe("Html templates", () => {
   });
 
   it("Removes undefined values in object to attributes transformation", () => {
-    const template = (value) => html` <p ${html.attrs(value)}></p> `;
+    const template = (value: object) => html`<p ${html.attrs(value)}></p> `;
 
     expect(
       html.render(
