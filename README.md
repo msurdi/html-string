@@ -1,6 +1,11 @@
 # html-string
 
-A templating library based on JavaScript tagged template literals. Works on the browser and on the server.
+A templating library based on JavaScript tagged template literals.
+
+- Works on Node and in the browser.
+- Type safe, written in Typescript.
+- It does not require special editor plugins, formatters, compilers, etc as it's just standard JavaScript code.
+- Client side interactivity can be implemented with [Stimulus](https://stimulus.hotwired.dev/), [Alpine](https://alpinejs.dev/) or similar libraries. See the [examples](examples).
 
 Quick Example:
 
@@ -13,8 +18,8 @@ const TodoItem = ({ title, completed }) => html`
   <li>${title} ${completed ? "✅" : "❌"}</li>
 `;
 
-const TodoList = ({ todos, completedCount, extraAttrs={} }) => html`
-  <ul ${extraAttrs}:attrs>
+const TodoList = ({ todos, completedCount, ...attrs }) => html`
+  <ul ${html.attrs(attrs)}> // html.attrs() will convert any extra arguments to html attributes.
     ${todos.map(todo => TodoItem(todo))}
   </ul>
   ${completedCount && html`<p>${completedCount} tasks completed</p>`}
@@ -27,8 +32,8 @@ const todos = [
 
 const completedCount = todos.filter(todo => todo.completed).length;
 
-const todoList = TodoList({ todos, completedCount, extraAttrs: {id: "tasks", dataCustom: "value", dataSomeBool: true}});
-const htmlOutputForTheBrowser = todoList.render()
+const todoList = TodoList({ todos, completedCount, id: "tasks", dataCustom: "value", dataSomeBool: true});
+const htmlOutputForTheBrowser = html.render(todoList);
 console.log(htmlOutputForTheBrowser);
 
 /*
@@ -44,20 +49,30 @@ Output would be:
 There are examples more examples [here](https://github.com/msurdi/html-string/tree/master/examples)
 
 **Note**
-By default, all interpolated values are [XSS](https://es.wikipedia.org/wiki/Cross-site_scripting) escaped using the [xss](https://www.npmjs.com/package/xss) library. This is for security reasons so that if a malicious value
-is passed in, let's say: `<script>alert('hello')</script>` then the tags will be automatically escaped.
+By default, all interpolated values are [XSS](https://es.wikipedia.org/wiki/Cross-site_scripting) escaped using the [xss](https://www.npmjs.com/package/xss) library.
+This is for security reasons so that if a malicious value is passed in, let's say: `<script>alert('hello')</script>` then the tags will be automatically escaped.
 
-When you are 100% sure that the provided value is safe, you can append the `:safe` modifier. If the value you are
-passing is already the output of another template, then there is no need to append the `:safe` modifier as the
-template itself will have already applied these same rules to it. For example if in the previous example the value of a `TodoItem`'s title could be some html entered by the user and you trust the entered value, then you could rewrite it as:
+When you are 100% sure that the provided value is safe, you can use  `html.unsafe()` helper to make it to not be escaped. For example if in the previous example
+the value of a `TodoItem`'s title could be some html entered by the user and you trust the entered value or you have already escaped it, then you could rewrite it as:
 
 ```JavaScript
 const TodoItem = ({ title, completed }) => html`
-  <li>${title}:safe ${completed ? "✅" : "❌"}</li>
+  <li>${html.unsafe(title)} ${completed ? "✅" : "❌"}</li>
 `;
 ```
 
-The `:safe` modifier in the previous template would skip the XSS protection.
+The `html.unsafe()` helper in the previous template would skip the XSS protection.
+
+## Available helpers
+
+`html.unsafe(value)`
+
+Mark the value as safe for raw output (no XSS escaping).
+
+`html.attrs(value)`
+
+Convert each property of the passed value object to html attributes. Camelcase names
+are converted to kebab-case. For example `{dataCustom: "value"}` will be rendered as `data-custom="value"`.
 
 ## Available modifiers
 
@@ -74,4 +89,4 @@ are converted to kebab-case. For example `{dateCustom: "value"}` will be rendere
 
 If you are using [Visual Studio Code](https://code.visualstudio.com/), you can use the [lit-html](https://marketplace.visualstudio.com/items?itemName=bierner.lit-html) extension for syntax highlighting, autocompletion, etc.
 
-Inspired by [lit-html](https://lit-html.polymer-project.org), key differences are: Does XSS by default, focused on server side templates.
+Inspired by [lit-html](https://lit-html.polymer-project.org) and JSX.
