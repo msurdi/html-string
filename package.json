@@ -2,10 +2,11 @@
   "name": "html-string",
   "version": "3.1.1",
   "description": "A Node.js and browser templating library based on tagged template literals",
+  "main": "dist/html-string.cjs",
   "exports": {
     ".": {
       "require": "./dist/html-string.cjs",
-      "import": "./html-string.js"
+      "import": "./dist/html-string.js"
     }
   },
   "type": "module",

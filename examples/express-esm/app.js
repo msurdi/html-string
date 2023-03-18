@@ -1,5 +1,5 @@
-const express = require("express");
-const html = require("html-string");
+import express from "express";
+import html from "html-string";
 
 const app = express();
 
