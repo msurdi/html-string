@@ -3,6 +3,13 @@
   "version": "4.0.0",
   "description": "A Node.js and browser templating library based on tagged template literals",
   "main": "dist/html-string.cjs",
+  "keywords": [
+    "server",
+    "templates",
+    "node",
+    "lit-html",
+    "browser"
+  ],
   "exports": {
     ".": {
       "require": "./dist/html-string.cjs",
@@ -24,6 +31,10 @@
     "name": "Matías Emanuel Surdi",
     "email": "matias@surdi.net",
     "url": "https://github.com/msurdi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/msurdi/html-string.git"
   },
   "bugs": {
     "url": "https://github.com/msurdi/html-string/issues"
