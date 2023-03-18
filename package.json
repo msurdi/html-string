@@ -1,6 +1,6 @@
 {
   "name": "html-string",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "description": "A Node.js and browser templating library based on tagged template literals",
   "main": "dist/html-string.cjs",
   "exports": {
