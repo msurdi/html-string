@@ -11,7 +11,7 @@
   },
   "type": "module",
   "scripts": {
-    "prepublish": "run-s test build",
+    "prepack": "run-s test build",
     "test": "run-s test:*",
     "test:lint": "eslint src/**",
     "test:types": "tsc",
