@@ -3,9 +3,9 @@
 A templating library based on JavaScript tagged template literals.
 
 - Works on Node and in the browser.
-- Type safe, written in Typescript.
-- It does not require special editor plugins, formatters, compilers, etc as it's just standard JavaScript code.
-- Client side interactivity can be implemented with [Stimulus](https://stimulus.hotwired.dev/), [Alpine](https://alpinejs.dev/) or similar libraries. See the [examples](examples).
+- Written in Typescript.
+- It does not require special editor plugins, formatters, compilers, etc as it's used as just standard JavaScript syntax. Optionally installing [the VSCode lit-html extension](https://marketplace.visualstudio.com/items?itemName=bierner.lit-html) will improve the experience with full intellisense support inside the HTML. Click to go to definition of interpolated values and nested components, autocompletion, eslint and prettier support, syntax coloring, renaming symbols, auto closing tags, emmet, etc
+- Client side interactivity can be implemented with [Stimulus](https://stimulus.hotwired.dev/), [Alpine](https://alpinejs.dev/) or similar libraries. See the [examples](examples) directory.
 
 Quick Example:
 
