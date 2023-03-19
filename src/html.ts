@@ -1,7 +1,9 @@
 /* eslint-disable max-classes-per-file */
 import xss from "xss";
 
-// Types of values that can be used as attributes
+/**
+ * Types of values that can be used as attributes
+ */
 type BaseAttributeValue =
   | string
   | number
@@ -15,14 +17,20 @@ type BaseAttributeValue =
   // eslint-disable-next-line no-use-before-define
   | HtmlString;
 
-// Accepted attribute types can be either a single value or an array of values
+/**
+ * Accepted attribute types can be either a single value or an array of values
+ */
 type AttributeValue = BaseAttributeValue | BaseAttributeValue[];
 
-// Convert a string from camelCase to kebab-case
+/**
+ * Convert a string from camelCase to kebab-case
+ */
 const toKebabCase = (value: string) =>
   value.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2").toLowerCase();
 
-// Wrapper class for values that should not be escaped
+/**
+ * Wrapper class for values that should not be escaped
+ */
 class UnsafeValue {
   value: AttributeValue;
 
@@ -31,7 +39,9 @@ class UnsafeValue {
   }
 }
 
-// Wrapper class for values that should be rendered as HTML
+/**
+ * Wrapper class for values that should be rendered as HTML
+ */
 class HtmlString {
   value: AttributeValue;
 
@@ -40,9 +50,11 @@ class HtmlString {
   }
 }
 
-// Convert an attribute value to a string.
-// For example, a false, null or undefined value will be rendered as an empty string.
-// Other values such as strings, numbers, etc will just be XSS escaped and returned.
+/**
+ * Convert an attribute value to a string.
+ * For example, a false, null or undefined value will be rendered as an empty string.
+ * Other values such as strings, numbers, etc will just be XSS escaped and returned.
+ */
 const toHtmlValue = (value: AttributeValue): string => {
   if (Array.isArray(value)) {
     return value.map(toHtmlValue).join(" ");
@@ -65,9 +77,11 @@ const toHtmlValue = (value: AttributeValue): string => {
   return xss(value.toString());
 };
 
-// Convert a key and value to an HTML attribute string.
-// For example, a key of "fooBar" and a value of true will be rendered
-// as 'foo-bar' while a key of "fooBar" and a value of "baz" will be rendered as 'foo-bar="baz"'
+/**
+ * Convert a key and value to an HTML attribute string.
+ * For example, a key of "fooBar" and a value of true will be rendered
+ * as 'foo-bar' while a key of "fooBar" and a value of "baz" will be rendered as 'foo-bar="baz"'
+ */
 const toAttributeString = (key: string, value: AttributeValue): string => {
   if (value === true) {
     return toKebabCase(key);
