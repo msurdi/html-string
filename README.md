@@ -83,7 +83,7 @@ are converted to kebab-case. For example `{dataCustom: "value"}` will be rendere
 `attrs`
 
   Convert each property of the preceding interpolated value to html attributes. Camelcase names
-are converted to kebab-case. For example `{dateCustom: "value"}` will be rendered as `data-custom="value"`.
+are converted to kebab-case. For example `{dataCustom: "value"}` will be rendered as `data-custom="value"`.
 
 ## Editor support
 
